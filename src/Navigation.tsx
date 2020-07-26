@@ -4,14 +4,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import HomeScreen from '../screens/Home';
-import ProfileScreen from '../screens/Profile';
-import Login from '../screens/auth/Login';
-import Signup from '../screens/auth/Signup';
-import Games from '../screens/Games';
-import { useState } from 'react';
+import HomeScreen from './screens/Home';
+import ProfileScreen from './screens/Profile';
+import Games from './screens/Games';
+import AuthNav from './auth';
 
-const Auth = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -22,20 +19,9 @@ const TabNav = () => (
   </Tab.Navigator>
 );
 
-const MainNav = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
+const MainNav = ({ loggedIn }) => {
   if (!loggedIn) {
-    return (
-      <Auth.Navigator headerMode="none">
-        <Auth.Screen name="Login">
-          {({ navigation }) => (
-            <Login {...navigation} onLoginSuccess={() => setLoggedIn(true)} />
-          )}
-        </Auth.Screen>
-        <Auth.Screen name="Signup" component={Signup} />
-      </Auth.Navigator>
-    );
+    return <AuthNav />;
   }
 
   return (
